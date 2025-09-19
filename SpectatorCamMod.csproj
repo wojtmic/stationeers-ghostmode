@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <AssemblyName>SpectatorCamMod</AssemblyName>
+        <Product>Spectator Camera Mod for Stationeers</Product>
+        <Version>1.0.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <RestoreAdditionalProjectSources>
+            https://api.nuget.org/v3/index.json;
+            https://nuget.bepinex.dev/v3/index.json;
+            https://nuget.samboy.dev/v3/index.json
+        </RestoreAdditionalProjectSources>
+        <RootNamespace>SpectatorCamMod</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.Core" Version="5.*"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>..\..\..\..\..\mnt\Dodatkowy\SteamLibrary\steamapps\common\Stationeers\BepInEx\core\0Harmony.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Assembly-CSharp">
+        <HintPath>..\..\..\..\..\mnt\Dodatkowy\SteamLibrary\steamapps\common\Stationeers\rocketstation_Data\Managed\Assembly-CSharp.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Assembly-CSharp-firstpass">
+        <HintPath>..\..\..\..\..\mnt\Dodatkowy\SteamLibrary\steamapps\common\Stationeers\rocketstation_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\..\..\..\..\mnt\Dodatkowy\SteamLibrary\steamapps\common\Stationeers\rocketstation_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine">
+        <HintPath>..\..\..\..\..\mnt\Dodatkowy\SteamLibrary\steamapps\common\Stationeers\rocketstation_Data\Managed\UnityEngine.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+    </ItemGroup>
+</Project>

@@ -1,0 +1,74 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/SpectatorCamMod.csproj": {}
+  },
+  "projects": {
+    "/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/SpectatorCamMod.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/SpectatorCamMod.csproj",
+        "projectName": "SpectatorCamMod",
+        "projectPath": "/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/SpectatorCamMod.csproj",
+        "packagesPath": "/home/wojtmic/.nuget/packages/",
+        "outputPath": "/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/wojtmic/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.bepinex.dev/v3/index.json": {},
+          "https://nuget.samboy.dev/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "BepInEx.Analyzers": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.*, )"
+            },
+            "BepInEx.Core": {
+              "target": "Package",
+              "version": "[5.*, )"
+            },
+            "BepInEx.PluginInfoProps": {
+              "target": "Package",
+              "version": "[2.*, )"
+            },
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.109/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

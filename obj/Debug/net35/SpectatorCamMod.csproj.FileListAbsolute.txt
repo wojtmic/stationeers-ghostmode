@@ -1,0 +1,6 @@
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net35/SpectatorCamMod.csproj.AssemblyReference.cache
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net35/MyPluginInfo.cs
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net35/SpectatorCamMod.GeneratedMSBuildEditorConfig.editorconfig
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net35/SpectatorCamMod.AssemblyInfoInputs.cache
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net35/SpectatorCamMod.AssemblyInfo.cs
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net35/SpectatorCamMod.csproj.CoreCompileInputs.cache

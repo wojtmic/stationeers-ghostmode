@@ -1,0 +1,10 @@
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/bin/Debug/net48/SpectatorCamMod.dll
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/bin/Debug/net48/SpectatorCamMod.pdb
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/SpectatorCamMod.csproj.AssemblyReference.cache
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/MyPluginInfo.cs
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/SpectatorCamMod.GeneratedMSBuildEditorConfig.editorconfig
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/SpectatorCamMod.AssemblyInfoInputs.cache
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/SpectatorCamMod.AssemblyInfo.cs
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/SpectatorCamMod.csproj.CoreCompileInputs.cache
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/SpectatorCamMod.dll
+/home/wojtmic/RiderProjects/SpectatorCamMod/SpectatorCamMod/obj/Debug/net48/SpectatorCamMod.pdb
