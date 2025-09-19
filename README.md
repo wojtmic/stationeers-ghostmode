@@ -1,5 +1,5 @@
 # Ghostmode
-Simple utility to make a player immortal, have infinite jetpack fuel and invisible to other players in Stationeers
+Simple utility to make a player immortal, have infinite jetpack fuel and invisible to other players in Stationeers<br>
 Made for Largely Unemployed's mod bounty
 
 # Usage
