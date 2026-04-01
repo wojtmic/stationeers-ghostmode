@@ -62,6 +62,7 @@ public class Plugin : BaseUnityPlugin
             Logger.LogError($"Harmony patching failed: {ex}");
         }
                 
+        gameObject.AddComponent<ClientFullbrightWatcher>();
         CommandLine.AddCommand("ghost", new GhostCommand());
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }

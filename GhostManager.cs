@@ -37,13 +37,8 @@ public static class GhostManager
     {
         FullbrightEnabled = !FullbrightEnabled;
         Plugin.Logger.LogInfo($"Fullbright globally {(FullbrightEnabled ? "enabled" : "disabled")}");
-
-        foreach (var clientId in _ghostedPlayers)
-        {
-            var human = Human.Find(clientId);
-            if (human == null) continue;
-            human.gameObject.GetComponent<FullbrightController>()?.SetActive(FullbrightEnabled);
-        }
+        // ClientFullbrightWatcher (running on every game instance) picks up the
+        // flag change on its next Update() — no per-player work needed here.
     }
 
     private static void SetPlayerGodMode(ulong clientId, bool godMode)
@@ -101,12 +96,6 @@ public static class GhostManager
             if (existingNoclip != null) existingNoclip.Cleanup();
             var noclip = human.gameObject.AddComponent<NoclipController>();
             noclip.Initialize(human);
-
-            // Fullbright: attach controller that forces max ambient light every frame
-            var existingFullbright = human.gameObject.GetComponent<FullbrightController>();
-            if (existingFullbright != null) existingFullbright.Cleanup();
-            var fullbright = human.gameObject.AddComponent<FullbrightController>();
-            if (!FullbrightEnabled) fullbright.SetActive(false);
         }
         else
         {
@@ -124,9 +113,8 @@ public static class GhostManager
                 }
             }
 
-            // Remove noclip and fullbright, restoring original state
+            // Remove noclip; fullbright is managed by ClientFullbrightWatcher
             human.gameObject.GetComponent<NoclipController>()?.Cleanup();
-            human.gameObject.GetComponent<FullbrightController>()?.Cleanup();
         }
 
         Plugin.Logger.LogInfo($"Ghost mode {godMode} applied successfully to {human.DisplayName}");

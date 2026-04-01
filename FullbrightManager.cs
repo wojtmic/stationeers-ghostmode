@@ -1,75 +1,60 @@
+using Assets.Scripts.Objects.Entities;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace SpectatorCamMod
 {
     /// <summary>
-    /// Attached to a ghost player's gameObject. Overrides RenderSettings every
-    /// Update() frame to keep ambient light at maximum. Can be toggled at runtime
-    /// via SetActive(); original settings are restored when inactive or on Cleanup().
+    /// Added to the Plugin GameObject on every game instance (host and client).
+    /// Watches Human.LocalHuman each frame: if the local player is in ghost mode
+    /// (detected via the "Ignore Raycast" layer set by GhostManager) it forces
+    /// RenderSettings to max ambient light. Restores original settings as soon as
+    /// the condition no longer holds.
     ///
-    /// Note: runs on the host, so fullbright only affects the host's view.
+    /// This approach works regardless of which machine is the host — the effect
+    /// always runs on the ghost player's own machine.
     /// </summary>
-    public class FullbrightController : MonoBehaviour
+    public class ClientFullbrightWatcher : MonoBehaviour
     {
+        private static readonly int IgnoreRaycastLayer = LayerMask.NameToLayer("Ignore Raycast");
+
         private Color _savedAmbientLight;
         private float _savedAmbientIntensity;
         private AmbientMode _savedAmbientMode;
-        private bool _active = true;
-
-        private void Awake()
-        {
-            SaveSettings();
-            Plugin.Logger.LogInfo("Fullbright activated: ambient settings saved");
-        }
+        private bool _fullbrightApplied;
 
         private void Update()
         {
-            if (!_active) return;
-            RenderSettings.ambientMode = AmbientMode.Flat;
-            RenderSettings.ambientLight = Color.white;
-            RenderSettings.ambientIntensity = 8f;
-        }
+            var local = Human.LocalHuman;
+            bool isGhosted = local != null && local.gameObject.layer == IgnoreRaycastLayer;
+            bool shouldApply = isGhosted && GhostManager.FullbrightEnabled;
 
-        /// <summary>Toggle fullbright on or off without removing the component.</summary>
-        public void SetActive(bool active)
-        {
-            if (_active == active) return;
-            _active = active;
-
-            if (!_active)
+            if (shouldApply && !_fullbrightApplied)
             {
-                RestoreSettings();
-                Plugin.Logger.LogInfo("Fullbright toggled off");
+                // Snapshot natural settings the moment we transition on, so we
+                // restore correctly even if the game changes them over time.
+                _savedAmbientLight = RenderSettings.ambientLight;
+                _savedAmbientIntensity = RenderSettings.ambientIntensity;
+                _savedAmbientMode = RenderSettings.ambientMode;
+                _fullbrightApplied = true;
+                Plugin.Logger.LogInfo("Fullbright on (local player is ghost)");
             }
-            else
+            else if (!shouldApply && _fullbrightApplied)
             {
-                // Re-snapshot current settings before taking over again.
-                SaveSettings();
-                Plugin.Logger.LogInfo("Fullbright toggled on");
+                RenderSettings.ambientMode = _savedAmbientMode;
+                RenderSettings.ambientLight = _savedAmbientLight;
+                RenderSettings.ambientIntensity = _savedAmbientIntensity;
+                _fullbrightApplied = false;
+                Plugin.Logger.LogInfo("Fullbright off");
+                return;
             }
-        }
 
-        /// <summary>Restore original ambient settings and remove this component.</summary>
-        public void Cleanup()
-        {
-            RestoreSettings();
-            Plugin.Logger.LogInfo("Fullbright deactivated: ambient settings restored");
-            Destroy(this);
-        }
-
-        private void SaveSettings()
-        {
-            _savedAmbientLight = RenderSettings.ambientLight;
-            _savedAmbientIntensity = RenderSettings.ambientIntensity;
-            _savedAmbientMode = RenderSettings.ambientMode;
-        }
-
-        private void RestoreSettings()
-        {
-            RenderSettings.ambientMode = _savedAmbientMode;
-            RenderSettings.ambientLight = _savedAmbientLight;
-            RenderSettings.ambientIntensity = _savedAmbientIntensity;
+            if (_fullbrightApplied)
+            {
+                RenderSettings.ambientMode = AmbientMode.Flat;
+                RenderSettings.ambientLight = Color.white;
+                RenderSettings.ambientIntensity = 8f;
+            }
         }
     }
 }
