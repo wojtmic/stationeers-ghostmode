@@ -5,44 +5,71 @@ namespace SpectatorCamMod
 {
     /// <summary>
     /// Attached to a ghost player's gameObject. Overrides RenderSettings every
-    /// Update() frame to keep ambient light at maximum so the ghost player sees a
-    /// fully-lit world. Original settings are restored on Cleanup().
+    /// Update() frame to keep ambient light at maximum. Can be toggled at runtime
+    /// via SetActive(); original settings are restored when inactive or on Cleanup().
     ///
-    /// Note: because this runs on the host, it only affects the host's view.
-    /// If the ghosted player is not the host, a client-side version of this mod
-    /// would be required for the fullbright to take effect on their screen.
+    /// Note: runs on the host, so fullbright only affects the host's view.
     /// </summary>
     public class FullbrightController : MonoBehaviour
     {
         private Color _savedAmbientLight;
         private float _savedAmbientIntensity;
         private AmbientMode _savedAmbientMode;
+        private bool _active = true;
 
         private void Awake()
         {
-            _savedAmbientLight = RenderSettings.ambientLight;
-            _savedAmbientIntensity = RenderSettings.ambientIntensity;
-            _savedAmbientMode = RenderSettings.ambientMode;
-
+            SaveSettings();
             Plugin.Logger.LogInfo("Fullbright activated: ambient settings saved");
         }
 
         private void Update()
         {
+            if (!_active) return;
             RenderSettings.ambientMode = AmbientMode.Flat;
             RenderSettings.ambientLight = Color.white;
             RenderSettings.ambientIntensity = 8f;
         }
 
+        /// <summary>Toggle fullbright on or off without removing the component.</summary>
+        public void SetActive(bool active)
+        {
+            if (_active == active) return;
+            _active = active;
+
+            if (!_active)
+            {
+                RestoreSettings();
+                Plugin.Logger.LogInfo("Fullbright toggled off");
+            }
+            else
+            {
+                // Re-snapshot current settings before taking over again.
+                SaveSettings();
+                Plugin.Logger.LogInfo("Fullbright toggled on");
+            }
+        }
+
         /// <summary>Restore original ambient settings and remove this component.</summary>
         public void Cleanup()
+        {
+            RestoreSettings();
+            Plugin.Logger.LogInfo("Fullbright deactivated: ambient settings restored");
+            Destroy(this);
+        }
+
+        private void SaveSettings()
+        {
+            _savedAmbientLight = RenderSettings.ambientLight;
+            _savedAmbientIntensity = RenderSettings.ambientIntensity;
+            _savedAmbientMode = RenderSettings.ambientMode;
+        }
+
+        private void RestoreSettings()
         {
             RenderSettings.ambientMode = _savedAmbientMode;
             RenderSettings.ambientLight = _savedAmbientLight;
             RenderSettings.ambientIntensity = _savedAmbientIntensity;
-
-            Plugin.Logger.LogInfo("Fullbright deactivated: ambient settings restored");
-            Destroy(this);
         }
     }
 }

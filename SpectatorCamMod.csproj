@@ -47,6 +47,10 @@
         <HintPath>$(StationeersManaged)/UnityEngine.CoreModule.dll</HintPath>
         <Private>False</Private>
       </Reference>
+      <Reference Include="UnityEngine.InputLegacyModule">
+        <HintPath>$(StationeersManaged)/UnityEngine.InputLegacyModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
       <Reference Include="UnityEngine.PhysicsModule">
         <HintPath>$(StationeersManaged)/UnityEngine.PhysicsModule.dll</HintPath>
         <Private>False</Private>

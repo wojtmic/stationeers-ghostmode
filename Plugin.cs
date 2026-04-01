@@ -65,4 +65,13 @@ public class Plugin : BaseUnityPlugin
         CommandLine.AddCommand("ghost", new GhostCommand());
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
+
+    private void Update()
+    {
+        if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.F4))
+        {
+            GhostManager.ToggleFullbright();
+            Logger.LogInfo($"F4: fullbright is now {(GhostManager.FullbrightEnabled ? "on" : "off")}");
+        }
+    }
 }

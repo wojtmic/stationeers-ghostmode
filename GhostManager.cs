@@ -31,6 +31,21 @@ public static class GhostManager
         return _ghostedPlayers.Contains(clientId);
     }
 
+    public static bool FullbrightEnabled { get; private set; } = true;
+
+    public static void ToggleFullbright()
+    {
+        FullbrightEnabled = !FullbrightEnabled;
+        Plugin.Logger.LogInfo($"Fullbright globally {(FullbrightEnabled ? "enabled" : "disabled")}");
+
+        foreach (var clientId in _ghostedPlayers)
+        {
+            var human = Human.Find(clientId);
+            if (human == null) continue;
+            human.gameObject.GetComponent<FullbrightController>()?.SetActive(FullbrightEnabled);
+        }
+    }
+
     private static void SetPlayerGodMode(ulong clientId, bool godMode)
     {
         var human = Human.Find(clientId);
@@ -90,7 +105,8 @@ public static class GhostManager
             // Fullbright: attach controller that forces max ambient light every frame
             var existingFullbright = human.gameObject.GetComponent<FullbrightController>();
             if (existingFullbright != null) existingFullbright.Cleanup();
-            human.gameObject.AddComponent<FullbrightController>();
+            var fullbright = human.gameObject.AddComponent<FullbrightController>();
+            if (!FullbrightEnabled) fullbright.SetActive(false);
         }
         else
         {
