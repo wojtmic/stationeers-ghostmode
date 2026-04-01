@@ -10,13 +10,18 @@ namespace SpectatorCamMod
         public static bool PreventFuelConsumption(Jetpack __instance)
         {
             // Check if this jetpack belongs to a ghost player
-            if (__instance.ParentHuman != null && 
+            if (__instance.ParentHuman != null &&
                 GhostManager.IsGhosted(__instance.ParentHuman.OwnerClientId))
             {
-                Plugin.Logger.LogInfo($"Blocking fuel consumption for ghost player {__instance.ParentHuman.DisplayName}");
+                // Signal NoclipController that the jetpack is actively ticking so it
+                // can enable/extend the noclip window for this player.
+                __instance.ParentHuman.gameObject
+                    .GetComponent<NoclipController>()
+                    ?.SignalJetpackActive();
+
                 return false; // Skip the original fuel consumption method
             }
-            
+
             return true; // Allow normal fuel consumption for non-ghost players
         }
     }

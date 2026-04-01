@@ -1,0 +1,11 @@
+# Build output
+bin/
+obj/
+
+# JetBrains Rider
+.idea/
+
+# User-specific files
+*.user
+*.suo
+.vs/

@@ -63,12 +63,12 @@ public static class GhostManager
             renderer.enabled = !godMode;
         }
 
-        // NEW: Try layer-based invisibility
+        // Layer-based invisibility
         if (godMode)
         {
             // Move to an invisible/ignore layer
             human.gameObject.layer = UnityEngine.LayerMask.NameToLayer("Ignore Raycast");
-        
+
             // Also try disabling renderers directly
             if (human.SkinnedMeshes != null)
             {
@@ -80,12 +80,23 @@ public static class GhostManager
                     }
                 }
             }
+
+            // Noclip: attach controller that disables colliders when jetpack is active
+            var existingNoclip = human.gameObject.GetComponent<NoclipController>();
+            if (existingNoclip != null) existingNoclip.Cleanup();
+            var noclip = human.gameObject.AddComponent<NoclipController>();
+            noclip.Initialize(human);
+
+            // Fullbright: attach controller that forces max ambient light every frame
+            var existingFullbright = human.gameObject.GetComponent<FullbrightController>();
+            if (existingFullbright != null) existingFullbright.Cleanup();
+            human.gameObject.AddComponent<FullbrightController>();
         }
         else
         {
             // Restore visibility
             human.gameObject.layer = Human.LayerPlayer;
-        
+
             if (human.SkinnedMeshes != null)
             {
                 foreach (var skinnedMesh in human.SkinnedMeshes)
@@ -96,6 +107,10 @@ public static class GhostManager
                     }
                 }
             }
+
+            // Remove noclip and fullbright, restoring original state
+            human.gameObject.GetComponent<NoclipController>()?.Cleanup();
+            human.gameObject.GetComponent<FullbrightController>()?.Cleanup();
         }
 
         Plugin.Logger.LogInfo($"Ghost mode {godMode} applied successfully to {human.DisplayName}");
