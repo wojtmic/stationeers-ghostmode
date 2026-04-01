@@ -16,7 +16,6 @@ namespace SpectatorCamMod
         private bool[] _originalEnabledStates;
         private Rigidbody _rigidbody;
         private bool _originalUseGravity;
-        private bool _originalIsKinematic;
         private bool _noclipActive;
 
         // OnAtmosphericTick may run slower than Update(), so use a generous window.
@@ -34,10 +33,7 @@ namespace SpectatorCamMod
 
             _rigidbody = human.gameObject.GetComponent<Rigidbody>();
             if (_rigidbody != null)
-            {
                 _originalUseGravity = _rigidbody.useGravity;
-                _originalIsKinematic = _rigidbody.isKinematic;
-            }
 
             Plugin.Logger.LogInfo($"NoclipController initialised for {human.DisplayName} " +
                                   $"({_colliders.Length} collider(s), rigidbody={_rigidbody != null})");
@@ -69,21 +65,22 @@ namespace SpectatorCamMod
             for (int i = 0; i < _colliders.Length; i++)
                 _colliders[i].enabled = enabled ? false : _originalEnabledStates[i];
 
-            // Freeze / unfreeze the Rigidbody so gravity doesn't pull the player
-            // through the floor while colliders are disabled.
+            // Disable gravity so the player doesn't fall through the floor while
+            // colliders are off. Leave isKinematic alone so the movement system
+            // can still apply forces/velocity normally.
             if (_rigidbody != null)
             {
                 if (enabled)
                 {
                     _rigidbody.useGravity = false;
-                    _rigidbody.isKinematic = true;
-                    _rigidbody.velocity = Vector3.zero;
-                    _rigidbody.angularVelocity = Vector3.zero;
+                    // Clear any accumulated downward velocity so the player doesn't
+                    // continue falling the moment noclip kicks in.
+                    var v = _rigidbody.velocity;
+                    if (v.y < 0f) _rigidbody.velocity = new Vector3(v.x, 0f, v.z);
                 }
                 else
                 {
                     _rigidbody.useGravity = _originalUseGravity;
-                    _rigidbody.isKinematic = _originalIsKinematic;
                 }
             }
 

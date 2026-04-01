@@ -68,10 +68,10 @@ public class Plugin : BaseUnityPlugin
 
     private void Update()
     {
-        if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.F4))
+        if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.L))
         {
             GhostManager.ToggleFullbright();
-            Logger.LogInfo($"F4: fullbright is now {(GhostManager.FullbrightEnabled ? "on" : "off")}");
+            Logger.LogInfo($"L: fullbright is now {(GhostManager.FullbrightEnabled ? "on" : "off")}");
         }
     }
 }
