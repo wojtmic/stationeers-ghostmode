@@ -13,12 +13,6 @@ namespace SpectatorCamMod
             if (__instance.ParentHuman != null &&
                 GhostManager.IsGhosted(__instance.ParentHuman.OwnerClientId))
             {
-                // Signal NoclipController that the jetpack is actively ticking so it
-                // can enable/extend the noclip window for this player.
-                __instance.ParentHuman.gameObject
-                    .GetComponent<NoclipController>()
-                    ?.SignalJetpackActive();
-
                 return false; // Skip the original fuel consumption method
             }
 

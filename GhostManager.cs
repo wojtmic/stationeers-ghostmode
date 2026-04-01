@@ -91,11 +91,6 @@ public static class GhostManager
                 }
             }
 
-            // Noclip: attach controller that disables colliders when jetpack is active
-            var existingNoclip = human.gameObject.GetComponent<NoclipController>();
-            if (existingNoclip != null) existingNoclip.Cleanup();
-            var noclip = human.gameObject.AddComponent<NoclipController>();
-            noclip.Initialize(human);
         }
         else
         {
@@ -113,8 +108,6 @@ public static class GhostManager
                 }
             }
 
-            // Remove noclip; fullbright is managed by ClientFullbrightWatcher
-            human.gameObject.GetComponent<NoclipController>()?.Cleanup();
         }
 
         Plugin.Logger.LogInfo($"Ghost mode {godMode} applied successfully to {human.DisplayName}");
